@@ -8,7 +8,8 @@
           <div class="card-body register-card-body">
             <p class="login-box-msg">Register a new membership</p>
       
-            <form action="../../index.html" method="post">
+            <form action="{{ route('register.store') }}" method="POST">
+              @csrf
               <div class="input-group mb-3">
                 <input  type="text"
                         name="name" 
@@ -21,6 +22,9 @@
                   </div>
                 </div>
               </div>
+              @error('name')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
               <div class="input-group mb-3">
                 <input  type="email"
                         name="email" 
@@ -33,6 +37,9 @@
                   </div>
                 </div>
               </div>
+              @error('email')
+                <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
               <div class="input-group mb-3">
                 <input  type="password"
                         name="password"   
@@ -45,6 +52,9 @@
                   </div>
                 </div>
               </div>
+              @error('password')
+                  <div class="alert alert-danger">{{ $message }}</div>
+              @enderror
               <div class="input-group mb-3">
                 <input  type="password"
                         name="password_confirmation" 
@@ -62,19 +72,20 @@
                   <div class="icheck-primary">
                     <input  type="checkbox" 
                             id="agreeTerms" 
-                            name="terms" 
+                            name="agree" 
                             value="agree"
                     >
                     <label for="agreeTerms">
                      I agree to the 
-                    <a  href="#"
-                        name="agree"
-                    >
+                    <a  href="#">
                       terms
                     </a>
                     </label>
                   </div>
                 </div>
+                @error('agree')
+                    <div class="alert alert-danger col-sm-12">{{ $message }}</div>
+                @enderror
                 <!-- /.col -->
                 <div class="col-4">
                   <button   type="submit" 

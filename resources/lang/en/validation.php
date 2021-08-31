@@ -139,6 +139,9 @@ return [
         'attribute-name' => [
             'rule-name' => 'custom-message',
         ],
+        'agree' =>  [
+            'required'  =>  'Terms and condition needs to be checked'
+        ]
     ],
 
     /*

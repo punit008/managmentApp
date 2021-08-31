@@ -2,23 +2,22 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Requests\RegisterPostRequest;
 use App\Models\User;
-use Facade\FlareClient\Http\Response;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
+use App\Http\Requests\LoginPostRequest;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\View\View;
 
-class RegisterController extends Controller
+class LoginController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(): View
     {
-        return view('auth.register');
+        return view('auth.login');
     }
 
     /**
@@ -34,15 +33,15 @@ class RegisterController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param \Illuminate\Http\RegisterPostRequest  $request
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(RegisterPostRequest $request) :RedirectResponse
+    public function store(LoginPostRequest $request)
     {
-        $user  = User::create($request->all());
-        Auth::login($user);
-
-        return redirect()->route('dashboard.index');
+        if (Auth::attempt(['email' => $request['email'], 'password' => $request['password']])) {
+            $request->session()->regenerate();
+            return redirect()->route('dashboard.index');
+        }
     }
 
     /**
